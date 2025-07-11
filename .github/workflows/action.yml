@@ -19,6 +19,7 @@ jobs:
             bash env.sh exec "bazel build //:main"
             bash env.sh exec "./bazel-bin/main"
             bash env.sh exec "chmod 777 ./bazel-bin/main"
+            ls -lh ./bazel-bin
             ./bazel-bin/main
         
         - uses: sigstore/gh-action-sigstore-python@v3.0.0
