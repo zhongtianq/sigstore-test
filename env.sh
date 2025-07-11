@@ -20,7 +20,8 @@ image=secretflow/trustflow-dev-ubuntu22.04:latest
 DOCKER=docker
 project=sigstore-test
 if [[ $1 == 'exec' ]]; then
-    $DOCKER exec ${project}-build-ubuntu-$(whoami) bash -c $2
+    echo "$2"
+    $DOCKER exec ${project}-build-ubuntu-$(whoami) bash -c "$2"
 else
     $DOCKER run --name ${project}-build-ubuntu-$(whoami) -idt \
         --network=host \
