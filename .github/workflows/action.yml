@@ -16,11 +16,9 @@ jobs:
           shell: bash
           run: |
             bash env.sh
-            bash env.sh enter
-            find /usr/lib -name libsgx_dcap_quoteverify*
-
-            bazel build //:main
-            ./bazel-bin/main
+            bash env.sh exec find /usr/lib -name libsgx_dcap_quoteverify*
+            bash env.sh exec bazel build //:main
+            bash env.sh exec ./bazel-bin/main
         
         - uses: sigstore/gh-action-sigstore-python@v3.0.0
           with:

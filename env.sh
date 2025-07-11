@@ -19,12 +19,12 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 image=secretflow/trustflow-dev-ubuntu22.04:latest
 DOCKER=docker
 project=sigstore-test
-if [[ $1 == 'enter' ]]; then
-    $DOCKER exec -it ${project}-build-ubuntu-$(whoami) bash
+if [[ $1 == 'exec' ]]; then
+    $DOCKER exec -i ${project}-build-ubuntu-$(whoami) bash -c $2
 else
-    $DOCKER run --name ${project}-build-ubuntu-$(whoami) -td \
+    $DOCKER run --name ${project}-build-ubuntu-$(whoami) -d \
         --network=host \
         -v $DIR:$DIR \
         -w $DIR \
-        ${image} 
+        ${image}
 fi
