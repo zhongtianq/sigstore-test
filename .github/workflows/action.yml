@@ -12,9 +12,6 @@ jobs:
           with:
             persist-credentials: false
 
-        # - name: Set up Docker Buildx
-        #   uses: docker/setup-buildx-action@v3
-
         - name: Run dev container
           shell: bash
           run: |
@@ -23,9 +20,12 @@ jobs:
         - name: test
           shell: bash
           run: |
-            which conda
-            which g++
+            bash env.sh enter
+            find /usr/lib -name libsgx_dcap_quoteverify*
+
+            bazel build //:main
+            ./bazel-bin/main
         
-        # - uses: sigstore/gh-action-sigstore-python@v3.0.0
-        #   with:
-        #     inputs: to_be_signed.txt
+        - uses: sigstore/gh-action-sigstore-python@v3.0.0
+          with:
+            inputs: ./bazel-bin/main
