@@ -1,7 +1,7 @@
-name: signing_files
+name: install-cosign-and-use
 on: [push]
 jobs:
-  signing_files:
+  install-cosign-and-use:
     runs-on: ubuntu-latest
     # 'id-token' needs write permission to retrieve the OIDC token, which is required for authentication.
     permissions:
@@ -20,6 +20,17 @@ jobs:
             bash env.sh exec "chmod -R 777 target"
             ./bazel-bin/main
         
-        - uses: sigstore/gh-action-sigstore-python@v3.0.0
-          with:
-            inputs: ./bazel-bin/main
+        - name: Install Cosign
+          uses: sigstore/cosign-installer@v3.7.0
+
+        - name: Check install!
+          run: cosign version
+
+        - name: Sign Blob
+          run: cosign sign-blob ./bazel-bin/main --bundle cosign.bundle --yes
+
+        - name: Verify blob
+          run: >
+            cosign verify-blob ./bazel-bin/main --bundle cosign.bundle
+            --certificate-identity=https://github.com/USERNAME/REPOSITORY_NAME/.github/workflows/WORKFLOW_NAME@refs/heads/BRANCH_NAME
+            --certificate-oidc-issuer=https://token.actions.githubusercontent.com
