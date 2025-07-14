@@ -32,5 +32,5 @@ jobs:
         - name: Verify blob
           run: >
             cosign verify-blob ./bazel-bin/main --bundle cosign.bundle
-            --certificate-identity=https://github.com/USERNAME/REPOSITORY_NAME/.github/workflows/WORKFLOW_NAME@refs/heads/BRANCH_NAME
+            --certificate-identity=https://github.com/zhongtianq/sigstore-test/.github/workflows/cosign.yaml@refs/heads/init
             --certificate-oidc-issuer=https://token.actions.githubusercontent.com
